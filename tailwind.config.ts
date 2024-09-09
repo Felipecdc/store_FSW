@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "category-item-gradient":
+          "linear-gradient(45deg, #5033c3 0%, rgba(80, 51, 195, 0.20) 100%)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
