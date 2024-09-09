@@ -1,7 +1,7 @@
-import { Badge } from "@/components/ui/badge";
 import { ProductsWithTotalPrice } from "@/helpers/product";
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
+import { Badge } from "./badge";
 
 interface ProductItemProps {
   product: ProductsWithTotalPrice;
@@ -9,8 +9,8 @@ interface ProductItemProps {
 
 const ProductItem = ({ product }: ProductItemProps) => {
   return (
-    <div className="flex max-w-[170px] flex-col gap-4">
-      <div className="relative flex h-[170px] w-[170px] items-center justify-center rounded-lg bg-accent">
+    <div className="flex flex-col gap-4">
+      <div className="relative flex h-[170px] w-full items-center justify-center rounded-lg bg-accent">
         <Image
           alt={product.name}
           src={product.imageUrls[0]}
