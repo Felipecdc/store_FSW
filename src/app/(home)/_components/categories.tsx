@@ -1,9 +1,11 @@
-import { prismaClient } from "@/lib/prisma";
+import { Category } from "@prisma/client";
 import CategoryItem from "./category-item";
 
-const Categories = async () => {
-  const categories = await prismaClient.category.findMany({});
+interface CategoriesProps {
+  categories: Category[];
+}
 
+const Categories = ({ categories }: CategoriesProps) => {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-2">
       {categories.map((category) => (
