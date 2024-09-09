@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { prismaClient } from "@/lib/prisma";
 import ProductList from "./_components/product-list";
 import Categories from "./_components/categories";
@@ -33,7 +32,7 @@ export default async function Home() {
   const categories = await prismaClient.category.findMany({});
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 py-8">
       <PromoBanner
         src={"/banner-home-01.png"}
         alt="Até 55% de desconto esse mes."
