@@ -1,5 +1,5 @@
 import { computeProductTotalPrice } from "@/helpers/product";
-import ProductItem from "../../../components/ui/product-item";
+import ProductItem from "./product-item";
 import { Product } from "@prisma/client";
 
 interface ProductListProps {
@@ -8,7 +8,7 @@ interface ProductListProps {
 
 const ProductList = ({ products }: ProductListProps) => {
   return (
-    <div className="scrollbar-hidden flex w-full gap-4 overflow-x-auto px-5">
+    <div className="flex w-full gap-4 overflow-x-auto px-5 scrollbar-hidden">
       {products.map((product) => (
         <div key={product.id} className="w-[170px] max-w-[170px]">
           <ProductItem product={computeProductTotalPrice(product)} />
