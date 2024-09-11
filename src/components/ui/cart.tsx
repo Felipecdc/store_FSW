@@ -4,9 +4,10 @@ import { useContext } from "react";
 import { CartContext } from "@/providers/cart";
 import CartItem from "./cart-item";
 import { computeProductTotalPrice } from "@/helpers/product";
+import { Separator } from "./separator";
 
 const Cart = () => {
-  const { products } = useContext(CartContext);
+  const { products, subTotal, total, totalDiscount } = useContext(CartContext);
 
   return (
     <div className="flex flex-col gap-8">
@@ -15,18 +16,46 @@ const Cart = () => {
         variant={"outline"}
       >
         <ShoppingCartIcon />
-        Catálogo
+        Carrinho
       </Badge>
-      <div>
-        <div className="flex flex-col gap-5">
-          {products.map((product) => (
+      <div className="flex flex-col gap-5">
+        {products.length > 0 ? (
+          products.map((product) => (
             <CartItem
               key={product.id}
               product={computeProductTotalPrice(product as any) as any}
             />
-          ))}
-        </div>
+          ))
+        ) : (
+          <p className="text-center font-semibold opacity-70">
+            Carrinho vazio.
+          </p>
+        )}
       </div>
+      {products.length > 0 && (
+        <div className="flex flex-col gap-3 text-xs">
+          <Separator />
+          <div className="flex items-center justify-between">
+            <p>Subtotal</p>
+            <p>R$ {subTotal.toFixed(2)}</p>
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <p>Entrega</p>
+            <p className="uppercase">Grátis</p>
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <p>Descontos</p>
+            <p>R$ {totalDiscount.toFixed(2)}</p>
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between text-sm font-bold">
+            <p>Total</p>
+            <p>R$ {total.toFixed(2)}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
