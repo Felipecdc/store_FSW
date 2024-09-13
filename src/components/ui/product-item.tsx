@@ -2,6 +2,7 @@ import { ProductsWithTotalPrice } from "@/helpers/product";
 import Image from "next/image";
 import Link from "next/link";
 import DiscountBadge from "./discount-badge";
+import { formatCurrency } from "@/helpers/formatCurrency";
 
 interface ProductItemProps {
   product: ProductsWithTotalPrice;
@@ -10,7 +11,7 @@ interface ProductItemProps {
 const ProductItem = ({ product }: ProductItemProps) => {
   return (
     <Link href={`/product/${product.slug}`}>
-      <div className="flex flex-col gap-4">
+      <div className="flex min-w-[140px] flex-col gap-4">
         <div className="relative flex h-[170px] w-full items-center justify-center rounded-lg bg-accent">
           <Image
             alt={product.name}
@@ -37,10 +38,12 @@ const ProductItem = ({ product }: ProductItemProps) => {
             {product.discountPercentage > 0 ? (
               <>
                 <p className="overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
-                  R$ {product.totalPrice.toFixed(2)}
+                  {/* R$ {product.totalPrice.toFixed(2)} */}
+                  {formatCurrency({ price: product.totalPrice })}
                 </p>
                 <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs line-through opacity-75">
-                  R$ {Number(product.basePrice).toFixed(2)}
+                  {/* R$ {Number(product.basePrice).toFixed(2)} */}
+                  {formatCurrency({ price: Number(product.basePrice) })}
                 </p>
               </>
             ) : (
