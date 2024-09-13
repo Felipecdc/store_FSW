@@ -45,29 +45,20 @@ export const CartContext = createContext<ICartContext>({
 const CartProvider: FunctionComponent<{ children: ReactNode }> = ({
   children,
 }) => {
-  // const [products, setProducts] = useState<CartProduct[]>([]);
-
-  const [products, setProducts] = useState<CartProduct[]>(() => {
-    const storedProducts = localStorage.getItem("@cartProducts");
-    return storedProducts ? JSON.parse(storedProducts) : [];
-  });
+  const [products, setProducts] = useState<CartProduct[]>([]);
 
   useEffect(() => {
-    localStorage.setItem("@cartProducts", JSON.stringify(products));
+    const localProductsCart = localStorage.getItem("@cartProducts");
+    if (localProductsCart) {
+      setProducts(JSON.parse(localProductsCart));
+    }
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      localStorage.setItem("@cartProducts", JSON.stringify(products));
+    }, 0);
   }, [products]);
-
-  // useEffect(() => {
-  //   const localProductsCart = localStorage.getItem("@cartProducts");
-  //   if (localProductsCart) {
-  //     setProducts(JSON.parse(localProductsCart));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     localStorage.setItem("@cartProducts", JSON.stringify(products));
-  //   }, 0);
-  // }, [products]);
 
   const subTotal = useMemo(() => {
     return products.reduce((acc, product) => {
