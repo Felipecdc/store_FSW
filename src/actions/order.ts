@@ -4,16 +4,16 @@ import { prismaClient } from "@/lib/prisma";
 import { CartProduct } from "@/providers/cart";
 
 export const createOrder = async (
-  cartProduct: CartProduct[],
+  cartProducts: CartProduct[],
   userId: string,
 ) => {
   const order = await prismaClient.order.create({
     data: {
-      userId: userId,
+      userId,
       status: "WAITING_FOR_PAYMENT",
       orderProducts: {
         createMany: {
-          data: cartProduct.map((product) => ({
+          data: cartProducts.map((product) => ({
             basePrice: product.basePrice,
             discountPercentage: product.discountPercentage,
             productId: product.id,
@@ -23,5 +23,6 @@ export const createOrder = async (
       },
     },
   });
+
   return order;
 };
