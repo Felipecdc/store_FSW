@@ -11,20 +11,26 @@ import { createCheckout } from "@/actions/checkout";
 import { loadStripe } from "@stripe/stripe-js";
 import { createOrder } from "@/actions/order";
 import { useSession } from "next-auth/react";
+import { formatCurrency } from "@/helpers/formatCurrency";
 
 const Cart = () => {
   const { data } = useSession();
+
   const { products, subTotal, total, totalDiscount } = useContext(CartContext);
 
   const handleFinishPurchaseClick = async () => {
     if (!data?.user) {
+      // TODO: redirecionar para o login
       return;
     }
 
-    await createOrder(products, (data?.user as any).id);
+    const order = await createOrder(products, (data?.user as any).id);
 
-    const checkout = await createCheckout(products);
+    const checkout = await createCheckout(products, order.id);
+
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+
+    // Criar pedido no banco
 
     stripe?.redirectToCheckout({
       sessionId: checkout.id,
@@ -35,14 +41,16 @@ const Cart = () => {
     <div className="flex h-full flex-col gap-8">
       <Badge
         className="w-fit gap-1 border-2 border-primary px-3 py-[0.375rem] text-base uppercase"
-        variant={"outline"}
+        variant="outline"
       >
-        <ShoppingCartIcon />
+        <ShoppingCartIcon size={16} />
         Carrinho
       </Badge>
-      <div className="h-full overflow-hidden">
+
+      {/* RENDERIZAR OS PRODUTOS */}
+      <div className="flex h-full max-h-full flex-col gap-5 overflow-hidden">
         <ScrollArea className="h-full">
-          <div className="flex h-full flex-col gap-5">
+          <div className="flex h-full flex-col gap-8">
             {products.length > 0 ? (
               products.map((product) => (
                 <CartItem
@@ -51,44 +59,49 @@ const Cart = () => {
                 />
               ))
             ) : (
-              <p className="text-center font-semibold opacity-70">
-                Carrinho vazio.
-              </p>
+              <p className="text-center font-semibold">Carrinho vazio!</p>
             )}
           </div>
         </ScrollArea>
       </div>
+
       {products.length > 0 && (
-        <>
-          <div className="flex flex-col gap-3 text-xs">
-            <Separator />
-            <div className="flex items-center justify-between">
-              <p>Subtotal</p>
-              <p>R$ {subTotal.toFixed(2)}</p>
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <p>Entrega</p>
-              <p className="uppercase">Grátis</p>
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <p>Descontos</p>
-              <p>R$ {totalDiscount.toFixed(2)}</p>
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between text-sm font-bold">
-              <p>Total</p>
-              <p>R$ {total.toFixed(2)}</p>
-            </div>
+        <div className="flex flex-col gap-3">
+          <Separator />
+
+          <div className="flex items-center justify-between text-xs">
+            <p>Subtotal</p>
+            <p>{formatCurrency({ price: subTotal })}</p>
           </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between text-xs">
+            <p>Entrega</p>
+            <p>GRÁTIS</p>
+          </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between text-xs">
+            <p>Descontos</p>
+            <p>{formatCurrency({ price: totalDiscount })}</p>
+          </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between text-sm font-bold">
+            <p>Total</p>
+            <p>{formatCurrency({ price: total })}</p>
+          </div>
+
           <Button
-            className="font-bold uppercase"
+            className="mt-7 font-bold uppercase"
             onClick={handleFinishPurchaseClick}
           >
-            Finalizar Compra
+            Finalizar compra
           </Button>
-        </>
+        </div>
       )}
     </div>
   );
