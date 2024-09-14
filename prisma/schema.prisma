@@ -40,13 +40,13 @@ model Order {
   user          User           @relation(fields: [userId], references: [id])
   orderProducts OrderProduct[]
   createdAt     DateTime       @default(now())
-  updateddAt    DateTime       @default(now()) @updatedAt
+  updatedAt     DateTime       @default(now()) @updatedAt
   status        OrderStatus    @default(WAITING_FOR_PAYMENT)
 }
 
 enum OrderStatus {
   WAITING_FOR_PAYMENT
-  PAYMENT_CONIRMED
+  PAYMENT_CONFIRMED
 }
 
 model OrderProduct {
