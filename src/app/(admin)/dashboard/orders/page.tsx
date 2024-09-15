@@ -1,8 +1,7 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import OrderItem from "@/components/ui/order-item";
 import { prismaClient } from "@/lib/prisma";
-import { ListOrderedIcon, PlusIcon } from "lucide-react";
+import { ListOrderedIcon } from "lucide-react";
 
 const OrdersPage = async () => {
   const orders = await prismaClient.order.findMany({
