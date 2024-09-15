@@ -20,14 +20,20 @@ import {
   SheetTrigger,
 } from "./sheet";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useTransition } from "react";
+import { useContext, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Separator } from "./separator";
 import Link from "next/link";
 import Cart from "./cart";
+import { CartContext } from "@/providers/cart";
+import { Badge } from "./badge";
 
 const Header = () => {
   const { status, data } = useSession();
+
+  const { products } = useContext(CartContext);
+
+  const cartQuantityItems = products.length;
 
   const [isPending, handleSession] = useTransition();
 
@@ -145,7 +151,12 @@ const Header = () => {
 
       <Sheet>
         <SheetTrigger asChild>
-          <Button size="icon" variant="outline">
+          <Button size="icon" variant="outline" className="relative">
+            {cartQuantityItems > 0 && (
+              <Badge className="absolute right-[calc(-1.25rem/2)] top-[calc(-1.25rem/2)] flex h-5 w-5 items-center justify-center rounded-lg bg-primary text-sm font-bold">
+                {cartQuantityItems}
+              </Badge>
+            )}
             <ShoppingCartIcon />
           </Button>
         </SheetTrigger>
