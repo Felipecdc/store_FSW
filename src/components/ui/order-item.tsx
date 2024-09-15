@@ -85,7 +85,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
                 />
               ))}
             </div>
-            <div className="flex w-full flex-col gap-1 text-xs">
+            <div className="flex w-full flex-col gap-1 pt-3 text-xs">
               <Separator />
               <div className="flex w-full justify-between py-3">
                 <p>Subtotal</p>
