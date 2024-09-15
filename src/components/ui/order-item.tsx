@@ -8,11 +8,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./accordion";
-import OrderProductItem from "@/app/orders/_components/order-product-item";
 import { useMemo } from "react";
 import { formatCurrency } from "@/helpers/formatCurrency";
 import { computeProductTotalPrice } from "@/helpers/product";
-import { getOrderStatus } from "@/app/orders/helpers/status";
+import OrderProductItem from "@/app/(shop)/orders/_components/order-product-item";
+import { getOrderStatus } from "@/app/(shop)/orders/helpers/status";
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
