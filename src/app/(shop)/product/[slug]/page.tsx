@@ -38,7 +38,12 @@ const ProductDetailPage = async ({ params: { slug } }: ProductDetailProp) => {
   return (
     <div className="flex flex-col gap-8 pb-8">
       <ProductImage imageUrls={product.imageUrls} name={product.name} />
-      <ProductInfo product={computeProductTotalPrice(product)} />
+      <ProductInfo
+        product={{
+          ...product,
+          totalPrice: computeProductTotalPrice(product),
+        }}
+      />
       <div>
         <SectionTitle>Produtos recomendados</SectionTitle>
         <ProductList products={product.category.products} />
