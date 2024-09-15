@@ -12,7 +12,6 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const path = usePathname();
-  console.log(path);
 
   return (
     <div className="flex min-w-[300px] flex-col items-center gap-8 border-r border-solid border-accent bg-background p-8">
@@ -38,10 +37,10 @@ const Sidebar = () => {
             Produtos
           </Button>
         </Link>
-        <Link href={"/dashboard/catalog"}>
+        <Link href={"/dashboard/categories"}>
           <Button
             variant={"outline"}
-            className={`flex w-full justify-start gap-2 ${path.includes("/catalog") && "bg-primary text-white hover:bg-primary"} `}
+            className={`flex w-full justify-start gap-2 ${path.includes("/categories") && "bg-primary text-white hover:bg-primary"} `}
           >
             <ListOrderedIcon size={16} /> Categorias
           </Button>
