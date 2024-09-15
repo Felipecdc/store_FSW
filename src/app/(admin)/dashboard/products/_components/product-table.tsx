@@ -9,8 +9,14 @@ import {
 import { formatCurrency } from "@/helpers/formatCurrency";
 import { ProductsWithTotalPrice } from "@/helpers/product";
 
+export type ProductsWithTotalPriceAndCategory = ProductsWithTotalPrice & {
+  category: {
+    name: string;
+  };
+};
+
 interface ProductTableProps {
-  products: ProductsWithTotalPrice[];
+  products: ProductsWithTotalPriceAndCategory[];
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
@@ -29,7 +35,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
         {products.map((product) => (
           <TableRow key={product.id}>
             <TableCell>{product.name}</TableCell>
-            <TableCell>{product.categoryId}</TableCell>
+            <TableCell>{product.category.name}</TableCell>
             <TableCell>
               {formatCurrency({ price: product.totalPrice })}
             </TableCell>
