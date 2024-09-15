@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../../globals.css";
 import { AuthProvider } from "@/providers/auth";
-import Footer from "@/components/ui/footer";
+import Sidebar from "./_components/sidebar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +18,10 @@ export default function RootLayout({
       <body className={"antialiased"}>
         <div className="flex h-full flex-col">
           <AuthProvider>
-            <div className="flex-1">{children}</div>
-            <Footer />
+            <div className="flex">
+              <Sidebar />
+              {children}
+            </div>
           </AuthProvider>
         </div>
       </body>
