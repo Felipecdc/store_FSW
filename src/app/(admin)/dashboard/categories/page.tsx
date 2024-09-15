@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { prismaClient } from "@/lib/prisma";
 import { ListOrderedIcon, PlusIcon } from "lucide-react";
+import CategoriesTable from "./_components/categories-table";
 
 const CategoriesPage = async () => {
   const categories = await prismaClient.category.findMany({
@@ -27,6 +28,7 @@ const CategoriesPage = async () => {
           <PlusIcon size={18} /> Adicionar categoria
         </Button>
       </div>
+      <CategoriesTable categories={categories} />
     </div>
   );
 };
