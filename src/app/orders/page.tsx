@@ -6,15 +6,20 @@ import { PackageSearch } from "lucide-react";
 import { getServerSession } from "next-auth";
 
 const OrderPage = async () => {
-  const user = getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
-  if (!user) {
-    return <p>Access Denied.</p>;
+  if (!session || !session.user) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center">
+        <p className="font-bold">Acesso Negado!</p>
+        <p className="text-xs opacity-60">Faça login para ver seus pedido</p>
+      </div>
+    );
   }
 
   const orders = await prismaClient.order.findMany({
     where: {
-      userId: (user as any).id,
+      userId: session.user.id,
     },
     include: {
       orderProducts: {
@@ -27,10 +32,7 @@ const OrderPage = async () => {
 
   return (
     <div className="flex flex-col gap-8 p-5">
-      <Badge
-        className="w-fit gap-1 border-2 border-primary px-3 py-[0.375rem] text-base uppercase"
-        variant={"outline"}
-      >
+      <Badge variant={"heading"}>
         <PackageSearch />
         Meus pedidos
       </Badge>
