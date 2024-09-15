@@ -7,11 +7,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./accordion";
+import OrderProductItem from "@/app/orders/_components/order-product-item";
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
     include: {
-      orderProducts: true;
+      orderProducts: {
+        include: {
+          product: true;
+        };
+      };
     };
   }>;
 }
@@ -27,7 +32,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <div className="font-bold">
                   <p>Status</p>
@@ -44,6 +49,12 @@ const OrderItem = ({ order }: OrderItemProps) => {
                   <p className="opacity-75">Cartão</p>
                 </div>
               </div>
+              {order.orderProducts.map((orderProduct) => (
+                <OrderProductItem
+                  key={orderProduct.id}
+                  orderProduct={orderProduct}
+                />
+              ))}
             </div>
           </AccordionContent>
         </AccordionItem>
