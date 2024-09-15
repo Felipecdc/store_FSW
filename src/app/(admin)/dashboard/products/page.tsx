@@ -25,7 +25,7 @@ const ProductsPage = async () => {
     }));
 
   return (
-    <div className="flex w-full flex-col gap-10 p-10">
+    <div className="flex h-full w-full flex-col gap-10 p-10">
       <Badge variant={"heading"}>
         <PackageIcon size={18} /> Produtos
       </Badge>
@@ -37,9 +37,7 @@ const ProductsPage = async () => {
           <PlusIcon size={18} /> Adicionar produto
         </Button>
       </div>
-      <div className="flex items-center">
-        <ProductTable products={productsWithTotalPrice} />
-      </div>
+      <ProductTable products={productsWithTotalPrice} />
     </div>
   );
 };
