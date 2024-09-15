@@ -24,13 +24,6 @@ export const POST = async (request: Request) => {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as any;
 
-    const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-      event.data.object.id,
-      {
-        expand: ["line_items"],
-      },
-    );
-
     await prismaClient.order.update({
       where: {
         id: session.metadata.orderId,
