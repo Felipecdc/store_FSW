@@ -11,7 +11,7 @@ import {
 import { useMemo } from "react";
 import { formatCurrency } from "@/helpers/formatCurrency";
 import { computeProductTotalPrice } from "@/helpers/product";
-import OrderProductItem from "@/app/(shop)/orders/_components/order-product-item";
+import OrderProductItem from "@/components/ui/order-product-item";
 import { getOrderStatus } from "@/app/(shop)/orders/helpers/status";
 
 interface OrderItemProps {
@@ -49,13 +49,34 @@ const OrderItem = ({ order }: OrderItemProps) => {
       <Accordion type="single" className="w-full" collapsible>
         <AccordionItem value={order.id}>
           <AccordionTrigger>
-            <div className="flex flex-col gap-1 text-left">
-              <p className="text-sm font-medium uppercase">
-                Pedido com {order.orderProducts.length} produto(s)
-              </p>
-              <p className="text-xs opacity-60">
-                Feito em {format(order.createdAt, "d/MM/y 'ás' HH:mm")}
-              </p>
+            <div className="flex w-full text-left">
+              <div className="flex flex-1 flex-col gap-1 text-left">
+                <p className="text-sm font-medium uppercase">
+                  Pedido com {order.orderProducts.length} produto(s)
+                </p>
+                <p className="text-xs opacity-60">
+                  Feito em {format(order.createdAt, "d/MM/y 'ás' HH:mm")}
+                </p>
+              </div>
+
+              <div className="hidden flex-1 font-bold lg:block">
+                <p className="text-xs lg:text-sm">Status</p>
+                <p className="text-xs text-[#8162FF] lg:text-sm">
+                  {getOrderStatus(order.status)}
+                </p>
+              </div>
+
+              <div className="hidden flex-1 lg:block">
+                <p className="text-xs font-bold lg:text-sm">Data</p>
+                <p className="text-xs opacity-60 lg:text-sm">
+                  {format(order.createdAt, "d/MM/y")}
+                </p>
+              </div>
+
+              <div className="hidden flex-1 lg:block">
+                <p className="text-xs font-bold lg:text-sm">Pagamento</p>
+                <p className="text-xs opacity-60 lg:text-sm">Cartão</p>
+              </div>
             </div>
           </AccordionTrigger>
           <AccordionContent>
